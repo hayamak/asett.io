@@ -11,5 +11,8 @@
 
   "customizations": {
     // カスタム設定
+    "vscode": {
+      "extensions": ["astro-build.astro-vscode", "esbenp.prettier-vscode"]
+    }
   }
 }
