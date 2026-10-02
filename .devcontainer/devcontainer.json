@@ -1,0 +1,15 @@
+// devcontainer.json
+
+{
+  "name": "asett",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [4321], //Next.jsなら3000、Astroなら4321
+
+  "remoteUser": "node",
+
+  "customizations": {
+    // カスタム設定
+  }
+}
