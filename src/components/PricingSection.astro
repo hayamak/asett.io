@@ -1,0 +1,637 @@
+---
+// src/components/PricingSection.astro
+
+const tiers = [
+  {
+    key: "free",
+    name: "無料",
+    id: "tier-free",
+    href: "/signup",
+    priceMonthly: "¥0",
+  },
+  {
+    key: "standard",
+    name: "スタンダード",
+    id: "tier-standard",
+    href: "/signup",
+    priceMonthly: "¥3,000",
+  },
+  {
+    key: "plus",
+    name: "プラス",
+    id: "tier-plus",
+    href: "/signup",
+    priceMonthly: "¥5,000",
+  },
+] as const;
+
+const features = [
+  {
+    name: "ログインアカウント数",
+    limit: true,
+    tiers: {
+      free: "1",
+      standard: "1",
+      plus: "3",
+    },
+  },
+  {
+    name: "登録可能ハードウェア数",
+    limit: true,
+    tiers: {
+      free: "300",
+      standard: "500",
+      plus: "1,000",
+    },
+  },
+  {
+    name: "CSV入出力",
+    tiers: {
+      free: true,
+      standard: true,
+      plus: true,
+    },
+  },
+  {
+    name: "初回データ設定サポート",
+    tiers: {
+      free: false,
+      standard: true,
+      plus: true,
+    },
+  },
+];
+---
+
+<section id="pricing" class="pricing">
+  <div class="pricing__container">
+    <div class="pricing__header">
+      <h2 class="pricing__eyebrow">料金</h2>
+      <p class="pricing__title">料金プラン</p>
+    </div>
+
+    <p class="pricing__description">
+      管理するIT機器の数などに合わせてお選びください。
+      小規模な事業者様に最適な無料プランもご用意しています。
+    </p>
+
+    <div class="pricing__mobile">
+      {tiers.map((tier) => (
+        <section class="pricing-card" aria-labelledby={tier.id}>
+          <div class="pricing-card__header">
+            <h3 id={tier.id} class="pricing-card__name">
+              {tier.name}
+            </h3>
+
+            {tier.name === "無料" && (
+              <span class="pricing-card__badge">クレカ登録不要</span>
+            )}
+          </div>
+
+          <p class="pricing-card__price">
+            <span class="pricing-card__amount">{tier.priceMonthly}</span>
+            <span class="pricing-card__period"> / 月</span>
+          </p>
+
+          <a href={tier.href} class="pricing-card__button">
+            {tier.name === "無料" ? "無料ではじめる" : "プランを選ぶ"}
+          </a>
+
+          <ul class="pricing-card__features">
+            {features.map((feature) => {
+              const value = feature.tiers[tier.key];
+
+              if (!value) return null;
+
+              return (
+                <li class="pricing-card__feature">
+                  <svg
+                    aria-hidden="true"
+                    class="pricing-card__check"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m5 12 4 4L19 6" />
+                  </svg>
+
+                  <span>
+                    {feature.name}
+
+                    {typeof value === "string" && (
+                      <span class="pricing-card__limit">
+                        {" "}
+                        ({value})
+                        {feature.limit && (
+                          <span class="pricing-card__limit-label">上限</span>
+                        )}
+                      </span>
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <div class="pricing__desktop">
+      <table class="pricing-table">
+        <caption class="sr-only">料金プランの比較</caption>
+
+        <colgroup>
+          <col />
+          <col />
+          <col />
+          <col />
+        </colgroup>
+
+        <thead>
+          <tr>
+            <td></td>
+
+            {tiers.map((tier) => (
+              <th scope="col" class="pricing-table__plan">
+                <div class="pricing-table__plan-header">
+                  <span>{tier.name}</span>
+
+                  {tier.name === "無料" && (
+                    <span class="pricing-card__badge">クレカ登録不要</span>
+                  )}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <th scope="row">
+              <span class="sr-only">料金</span>
+            </th>
+
+            {tiers.map((tier) => (
+              <td class="pricing-table__price-cell">
+                <div class="pricing-table__price">
+                  <span class="pricing-table__amount">{tier.priceMonthly}</span>
+                  <span class="pricing-table__period"> / 月</span>
+                </div>
+
+                <a href={tier.href} class="pricing-card__button">
+                  {tier.name === "無料" ? "無料ではじめる" : "プランを選ぶ"}
+                </a>
+              </td>
+            ))}
+          </tr>
+
+          <>
+            {features.map((feature) => (
+              <tr class="pricing-table__feature-row">
+                <th scope="row" class="pricing-table__feature">
+                  {feature.name}
+
+                  {feature.limit && (
+                    <span class="pricing-table__limit-label">上限</span>
+                  )}
+                </th>
+
+                {tiers.map((tier) => {
+                  const value = feature.tiers[tier.key];
+
+                  return (
+                    <td class="pricing-table__value">
+                      {typeof value === "string" ? (
+                        value
+                      ) : value ? (
+                        <>
+                          <svg
+                            aria-hidden="true"
+                            class="pricing-table__icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="m5 12 4 4L19 6" />
+                          </svg>
+                          <span class="sr-only">{tier.name}に含まれます</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg
+                            aria-hidden="true"
+                            class="pricing-table__icon pricing-table__icon--muted"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                          >
+                            <path d="M5 12h14" />
+                          </svg>
+                          <span class="sr-only">
+                            {tier.name}には含まれません
+                          </span>
+                        </>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </>
+        </tbody>
+      </table>
+    </div>
+    <div class="pricing-enterprise">
+      <div class="pricing-enterprise__card">
+        <div class="pricing-enterprise__content">
+          <div>
+            <div class="pricing-enterprise__header">
+              <h3 class="pricing-enterprise__title">エンタープライズ</h3>
+              <span class="pricing-enterprise__badge">個別見積もり</span>
+            </div>
+
+            <p class="pricing-enterprise__description">
+              1,000台を超えるIT資産の管理や、大規模な組織でのご利用をご希望の場合はお問い合わせください。
+            </p>
+          </div>
+
+          <a href="/contact" class="pricing-enterprise__button">
+            お問い合わせ
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    padding-block: 6rem;
+  }
+
+  .pricing__container {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .pricing__header {
+    max-width: 56rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .pricing__eyebrow {
+    margin: 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .pricing__title {
+    margin: 0.5rem 0 0;
+    color: var(--foreground);
+    font-size: 3rem;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .pricing__description {
+    max-width: 42rem;
+    margin: 1.5rem auto 0;
+    color: var(--muted-foreground);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  .pricing__mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 28rem;
+    margin: 3rem auto 0;
+  }
+
+  .pricing-card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+  }
+
+  .pricing-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pricing-card__name {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-card__badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    background: oklch(0.95 0.05 160);
+    color: oklch(0.4 0.12 160);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+
+  .pricing-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin: 0.5rem 0 0;
+    color: var(--foreground);
+  }
+
+  .pricing-card__amount {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-card__period {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-card__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius);
+    background: var(--foreground);
+    color: var(--background);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-card__features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pricing-card__feature {
+    display: flex;
+    gap: 0.75rem;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .pricing-card__check {
+    flex: none;
+    width: 1.25rem;
+    height: 1.5rem;
+  }
+
+  .pricing-card__limit {
+    color: var(--muted-foreground);
+  }
+
+  .pricing-card__limit-label {
+    margin-left: 0.25rem;
+    vertical-align: super;
+    font-size: 0.75rem;
+  }
+
+  .pricing__desktop {
+    display: none;
+  }
+
+  .pricing-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .pricing-table col {
+    width: 25%;
+  }
+
+  .pricing-table__plan {
+    padding: 1.5rem 2.5rem 0;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .pricing-table__plan-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pricing-table__price-cell {
+    padding: 1rem 2.5rem 2.5rem;
+  }
+
+  .pricing-table__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    color: var(--foreground);
+  }
+
+  .pricing-table__amount {
+    font-size: 1.875rem;
+    line-height: 2rem;
+    font-weight: 600;
+  }
+
+  .pricing-table__period {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-table__feature-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .pricing-table__feature {
+    padding-block: 1rem;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+  }
+
+  .pricing-table__limit-label {
+    margin-left: 0.25rem;
+    vertical-align: super;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+
+  .pricing-table__value {
+    padding: 1rem 1.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    text-align: center;
+  }
+
+  .pricing-table__icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-inline: auto;
+    color: var(--foreground);
+  }
+
+  .pricing-table__icon--muted {
+    color: var(--muted-foreground);
+    opacity: 0.5;
+  }
+
+  .pricing-enterprise {
+    max-width: 28rem;
+    margin: 2rem auto 0;
+  }
+
+  .pricing-enterprise__card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+  }
+
+  .pricing-enterprise__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .pricing-enterprise__title {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .pricing-enterprise__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    color: var(--foreground);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .pricing-enterprise__description {
+    margin: 1rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .pricing-enterprise__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.625rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 40rem) {
+    .pricing {
+      padding-block: 8rem;
+    }
+
+    .pricing__title {
+      font-size: 3.75rem;
+    }
+
+    .pricing__description {
+      font-size: 1.25rem;
+      line-height: 2rem;
+    }
+
+    .pricing__mobile {
+      margin-top: 4rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .pricing__container {
+      padding-inline: 2rem;
+    }
+
+    .pricing__mobile {
+      display: none;
+    }
+
+    .pricing__desktop {
+      display: block;
+      margin-top: 5rem;
+    }
+
+    .pricing-enterprise {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      max-width: none;
+    }
+
+    .pricing-enterprise__card {
+      grid-column: 2 / span 3;
+    }
+
+    .pricing-enterprise__content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pricing-enterprise__button {
+      flex: none;
+      width: auto;
+      margin-top: 0;
+      margin-left: 2rem;
+    }
+  }
+</style>
