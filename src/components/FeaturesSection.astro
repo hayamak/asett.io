@@ -1,0 +1,240 @@
+---
+// src/components/FeaturesSection.astro
+
+const features = [
+  {
+    name: "CSV入出力",
+    description:
+      "管理するIT機器は1台ずつ、大量の場合はCSVファイルからインポートできます。有料プランのお客様の場合は初回のデータ登録は無料でサポートいたします。また、アセットで管理しているデータは必要に応じてエクスポートできます。",
+    icon: "cloud-upload",
+  },
+  {
+    name: "貸出・返却管理",
+    description:
+      "管理するIT機器は1台ずつ、大量の場合はCSVファイルからインポートできます。有料プランのお客様の場合は初回のデータ登録は無料でサポートいたします。また、アセットで管理しているデータは必要に応じてエクスポートできます。",
+    icon: "arrow-right",
+  },
+];
+---
+
+<section id="features" class="features">
+  <div class="features__container">
+    <div class="features__grid">
+      <div class="features__content">
+        <div class="features__content-inner">
+          <h2 class="features__eyebrow">機能</h2>
+
+          <p class="features__title">
+            必要な機能を
+          </p>
+
+          <p class="features__description">
+            アセットは組織のIT資産管理に必要な機能をシンプルで分かりやすく使いやすいUIで提供します。
+            PC、プリンター、ネットワーク機器、スマートフォンなどの管理に最適です。購入資産・リースを問わず管理が可能です。
+          </p>
+
+          <dl class="features__list">
+            {
+              features.map((feature) => (
+                <div class="feature">
+                  <dt class="feature__name">
+                    {feature.icon === "cloud-upload" ? (
+                      <svg
+                        aria-hidden="true"
+                        class="feature__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 13v8" />
+                        <path d="m16 16-4-4-4 4" />
+                        <path d="M4.357 15.357A5 5 0 0 1 6.5 6.5a6 6 0 0 1 11.9 1.5A4.5 4.5 0 0 1 18 17h-2" />
+                        <path d="M6 17h2" />
+                      </svg>
+                    ) : (
+                      <svg
+                        aria-hidden="true"
+                        class="feature__icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                        <polyline points="10 17 15 12 10 7" />
+                        <line x1="15" x2="3" y1="12" y2="12" />
+                      </svg>
+                    )}
+
+                    {feature.name}
+                  </dt>{" "}
+
+                  <dd class="feature__description">
+                    {feature.description}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+
+      <img
+        src="https://tailwindcss.com/plus-assets/img/component-images/project-app-screenshot.png"
+        alt="Product screenshot"
+        width="2432"
+        height="1442"
+        class="features__screenshot"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    overflow: hidden;
+  }
+
+  .features__container {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .features__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem 2rem;
+    max-width: 42rem;
+    margin-inline: auto;
+  }
+
+  .features__eyebrow {
+    margin: 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .features__title {
+    margin: 0.5rem 0 0;
+    color: var(--foreground);
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    text-wrap: pretty;
+  }
+
+  .features__description {
+    margin: 1.5rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 1.125rem;
+    line-height: 2rem;
+  }
+
+  .features__list {
+    max-width: 36rem;
+    margin: 2.5rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+  }
+
+  .feature {
+    position: relative;
+    padding-left: 2.25rem;
+  }
+
+  .feature + .feature {
+    margin-top: 2rem;
+  }
+
+  .feature__name {
+    display: inline;
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  .feature__icon {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--foreground);
+  }
+
+  .feature__description {
+    display: inline;
+    margin: 0;
+  }
+
+  .features__screenshot {
+    display: block;
+    width: 48rem;
+    height: auto;
+    max-width: none;
+    border-radius: 0.75rem;
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1),
+      0 0 0 1px rgb(156 163 175 / 0.1);
+  }
+
+  @media (min-width: 40rem) {
+    .features__grid {
+      row-gap: 5rem;
+    }
+
+    .features__title {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .features__screenshot {
+      width: 57rem;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .features__screenshot {
+      margin-left: -1rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .features__container {
+      padding-inline: 2rem;
+    }
+
+    .features__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: none;
+      margin-inline: 0;
+    }
+
+    .features__content {
+      padding-top: 1rem;
+      padding-right: 2rem;
+    }
+
+    .features__content-inner {
+      max-width: 32rem;
+    }
+
+    .features__list {
+      max-width: none;
+    }
+
+    .features__screenshot {
+      margin-left: 0;
+    }
+  }
+</style>

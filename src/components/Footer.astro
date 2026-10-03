@@ -1,0 +1,217 @@
+---
+// src/components/Footer.astro
+
+import Logo from "./Logo.astro";
+
+const navigation = {
+  solutions: [
+    { name: "Marketing", href: "#" },
+    { name: "Analytics", href: "#" },
+    { name: "Automation", href: "#" },
+    { name: "Commerce", href: "#" },
+    { name: "Insights", href: "#" },
+  ],
+  support: [
+    { name: "Submit ticket", href: "#" },
+    { name: "Documentation", href: "#" },
+    { name: "Guides", href: "#" },
+  ],
+  company: [
+    { name: "About", href: "#" },
+    { name: "Blog", href: "#" },
+    { name: "Jobs", href: "#" },
+    { name: "Press", href: "#" },
+  ],
+  legal: [
+    { name: "Terms of service", href: "#" },
+    { name: "Privacy policy", href: "#" },
+    { name: "License", href: "#" },
+  ],
+};
+---
+
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__layout">
+      <div class="footer__brand">
+        <a href="/" aria-label="asett.io">
+          <Logo />
+        </a>
+      </div>
+
+      <div class="footer__navigation">
+        <div class="footer__navigation-group">
+          <div>
+            <h3 class="footer__heading">Solutions</h3>
+
+            <ul class="footer__list">
+              {navigation.solutions.map((item) => (
+                <li>
+                  <a href={item.href} class="footer__link">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="footer__column">
+            <h3 class="footer__heading">Support</h3>
+
+            <ul class="footer__list">
+              {navigation.support.map((item) => (
+                <li>
+                  <a href={item.href} class="footer__link">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer__navigation-group">
+          <div>
+            <h3 class="footer__heading">Company</h3>
+
+            <ul class="footer__list">
+              {navigation.company.map((item) => (
+                <li>
+                  <a href={item.href} class="footer__link">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="footer__column">
+            <h3 class="footer__heading">Legal</h3>
+
+            <ul class="footer__list">
+              {navigation.legal.map((item) => (
+                <li>
+                  <a href={item.href} class="footer__link">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copyright">&copy; 2026 アセット</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--background);
+  }
+
+  .footer__container {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .footer__navigation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .footer__heading {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  }
+
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__link {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  .footer__link:hover {
+    color: var(--foreground);
+  }
+
+  .footer__column {
+    margin-top: 2.5rem;
+  }
+
+  .footer__bottom {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer__copyright {
+    margin: 0;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .footer__container {
+      padding-block: 6rem;
+    }
+
+    .footer__bottom {
+      margin-top: 5rem;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .footer__navigation-group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .footer__column {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .footer__container {
+      padding-inline: 2rem;
+      padding-block: 8rem;
+    }
+
+    .footer__bottom {
+      margin-top: 6rem;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .footer__layout {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .footer__navigation {
+      grid-column: span 2;
+      margin-top: 0;
+    }
+  }
+</style>
