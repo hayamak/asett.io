@@ -1,15 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import HeroSection from '../components/HeroSection.astro';
-import FeaturesSection from '../components/FeaturesSection.astro';
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import FeaturesSection from "../components/FeaturesSection.astro";
+import FaqSection from "../components/FaqSection.astro";
 ---
 
 <Layout>
   <main class="page">
-    <svg
-      aria-hidden="true"
-      class="page__grid"
-    >
+    <svg aria-hidden="true" class="page__grid">
       <defs>
         <pattern
           x="50%"
@@ -33,8 +31,9 @@ import FeaturesSection from '../components/FeaturesSection.astro';
     <div class="page__content">
       <HeroSection />
       <FeaturesSection />
+      <FaqSection />
     </div>
-</main>
+  </main>
 </Layout>
 
 <style>
@@ -51,11 +50,7 @@ import FeaturesSection from '../components/FeaturesSection.astro';
     height: 100%;
     pointer-events: none;
     stroke: var(--border);
-    mask-image: radial-gradient(
-      100% 100% at top right,
-      white,
-      transparent
-    );
+    mask-image: radial-gradient(100% 100% at top right, white, transparent);
   }
 
   .page__content {
