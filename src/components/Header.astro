@@ -1,7 +1,7 @@
 ---
 // src/components/Header.astro
 
-import Logo from "./Logo.astro"
+import Logo from "./Logo.astro";
 
 const navigation = [
   { name: "機能", href: "/#features" },
@@ -15,18 +15,16 @@ const navigation = [
     <div class="nav__brand">
       <a href="/" class="nav__logo">
         <span class="sr-only">asett.io</span>
-        <Logo class="logo" />
+        <Logo />
       </a>
     </div>
 
     <div class="nav__links">
-      {
-        navigation.map((item) => (
-          <a href={item.href} class="nav__link">
-            {item.name}
-          </a>
-        ))
-      }
+      {navigation.map((item) => (
+        <a href={item.href} class="nav__link">
+          {item.name}
+        </a>
+      ))}
     </div>
 
     <div class="nav__login">
@@ -34,8 +32,112 @@ const navigation = [
         ログイン <span aria-hidden="true">→</span>
       </a>
     </div>
+
+    <button
+      type="button"
+      class="nav__menu-button"
+      aria-label="メニューを開く"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M4 6h16" />
+        <path d="M4 12h16" />
+        <path d="M4 18h16" />
+      </svg>
+    </button>
   </nav>
+
+  <dialog id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu__panel">
+      <div class="mobile-menu__header">
+        <a href="/" class="nav__logo">
+          <span class="sr-only">asett.io</span>
+          <Logo />
+        </a>
+
+        <button
+          type="button"
+          class="mobile-menu__close"
+          aria-label="メニューを閉じる"
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="mobile-menu__body">
+        <nav aria-label="Mobile">
+          {navigation.map((item) => (
+            <a href={item.href} class="mobile-menu__link">
+              {item.name}
+            </a>
+          ))}
+
+          <div class="mobile-menu__login">
+            <a href="/login">ログイン</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </dialog>
 </header>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#mobile-menu");
+  const openButton =
+    document.querySelector<HTMLButtonElement>(".nav__menu-button");
+  const closeButton = document.querySelector<HTMLButtonElement>(
+    ".mobile-menu__close",
+  );
+
+  if (dialog && openButton && closeButton) {
+    const openMenu = () => {
+      dialog.showModal();
+      openButton.setAttribute("aria-expanded", "true");
+    };
+
+    const closeMenu = () => {
+      dialog.close();
+      openButton.setAttribute("aria-expanded", "false");
+    };
+
+    openButton.addEventListener("click", openMenu);
+    closeButton.addEventListener("click", closeMenu);
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        closeMenu();
+      }
+    });
+
+    dialog.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    dialog.addEventListener("close", () => {
+      openButton.setAttribute("aria-expanded", "false");
+    });
+  }
+</script>
 
 <style>
   .header {
@@ -61,33 +163,97 @@ const navigation = [
     padding: 0.375rem;
   }
 
-  .nav__links {
-    display: flex;
-    gap: 3rem;
-  }
-
-  .nav__link {
-    color: var(--foreground);
-    font-size: 0.875rem;
-    line-height: 1.5rem;
-    font-weight: 600;
-  }
-
+  .nav__links,
   .nav__login {
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
+    display: none;
   }
 
-  .nav__login a {
-    color: var(--muted-foreground);
-    font-size: 0.875rem;
-    line-height: 1.5rem;
+  .nav__menu-button,
+  .mobile-menu__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: -0.625rem;
+    padding: 0.625rem;
+    border: 0;
+    background: transparent;
+    color: var(--foreground);
+    cursor: pointer;
+  }
+
+  .nav__menu-button svg,
+  .mobile-menu__close svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .mobile-menu {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .mobile-menu::backdrop {
+    background: rgb(0 0 0 / 0.2);
+  }
+
+  .mobile-menu__panel {
+    width: 100%;
+    min-height: 100%;
+    margin-left: auto;
+    padding: 1.5rem;
+    background: var(--background);
+  }
+
+  .mobile-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-menu__body {
+    margin-top: 1.5rem;
+  }
+
+  .mobile-menu__link {
+    display: block;
+    margin-inline: -0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
     font-weight: 600;
   }
 
-  .nav__login a:hover {
+  .mobile-menu__link:hover {
+    background: var(--muted);
+  }
+
+  .mobile-menu__login {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .mobile-menu__login a {
+    display: block;
+    margin-inline: -0.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius);
     color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+  }
+
+  .mobile-menu__login a:hover {
+    background: var(--muted);
   }
 
   .sr-only {
@@ -102,9 +268,48 @@ const navigation = [
     border: 0;
   }
 
+  @media (min-width: 40rem) {
+    .mobile-menu__panel {
+      max-width: 24rem;
+    }
+  }
+
   @media (min-width: 64rem) {
     .nav {
       padding-inline: 2rem;
+    }
+
+    .nav__links {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .nav__link {
+      color: var(--foreground);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+
+    .nav__login {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .nav__login a {
+      color: var(--muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+
+    .nav__login a:hover {
+      color: var(--foreground);
+    }
+
+    .nav__menu-button {
+      display: none;
     }
   }
 </style>
