@@ -1,9 +1,63 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/HeroSection.astro';
 ---
 
 <Layout>
-<main>
-<h1></h1>
+  <main class="page">
+    <svg
+      aria-hidden="true"
+      class="page__grid"
+    >
+      <defs>
+        <pattern
+          x="50%"
+          y="-1"
+          id="page-grid"
+          width="200"
+          height="200"
+          patternUnits="userSpaceOnUse"
+        >
+          <path d="M.5 200V.5H200" fill="none" />
+        </pattern>
+      </defs>
+
+      <rect
+        fill="url(#page-grid)"
+        width="100%"
+        height="100%"
+        stroke-width="0"
+      />
+    </svg>
+    <div class="page__content">
+      <HeroSection />
+    </div>
 </main>
 </Layout>
+
+<style>
+  .page {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .page__grid {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    stroke: var(--border);
+    mask-image: radial-gradient(
+      100% 100% at top right,
+      white,
+      transparent
+    );
+  }
+
+  .page__content {
+    position: relative;
+    z-index: 10;
+  }
+</style>
