@@ -1,0 +1,158 @@
+---
+// src/components/ContactForm.astro
+---
+
+<form class="contact-form">
+  <div class="field-group">
+    <div class="field">
+      <label for="name">お名前</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        placeholder="資産 管理"
+        autocomplete="name"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="organisation">会社・組織名</label>
+      <input
+        id="organisation"
+        name="organisation"
+        type="text"
+        placeholder="株式会社資産管理"
+        autocomplete="organization"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="email">メールアドレス</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="name@example.com"
+        autocomplete="email"
+        required
+      />
+    </div>
+
+    <div class="field">
+      <label for="comments">お問い合わせ内容</label>
+      <textarea
+        id="comments"
+        name="comments"
+        placeholder="内容をご入力ください。"
+        rows="6"
+        required
+      ></textarea>
+    </div>
+
+    <div class="checkbox-field">
+      <input id="privacy" name="privacy" type="checkbox" required />
+      <label for="privacy">
+        ご提供いただく個人情報について、
+        <a href="/privacy">プライバシーポリシー</a>に同意する
+      </label>
+    </div>
+
+    <div class="field">
+      <button type="submit">送信する</button>
+    </div>
+  </div>
+</form>
+
+<style>
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    color: var(--foreground);
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font: inherit;
+    outline: none;
+  }
+
+  .field input {
+    height: 2.5rem;
+  }
+
+  .field textarea {
+    min-height: 8rem;
+    resize: none;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--foreground);
+  }
+
+  .checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .checkbox-field input {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+  }
+
+  .checkbox-field label {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .checkbox-field a {
+    color: var(--foreground);
+  }
+
+  .checkbox-field a:hover {
+    text-decoration: underline;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    color: var(--background);
+    background-color: var(--foreground);
+    border: 0;
+    border-radius: var(--radius);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+</style>
