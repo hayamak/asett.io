@@ -40,7 +40,7 @@ const formattedUpdatedDate = frontmatter.updatedDate
 
   .legal-content {
     width: 100%;
-    max-width: 42rem;
+    max-width: 48rem;
     margin-inline: auto;
   }
 
@@ -74,6 +74,16 @@ const formattedUpdatedDate = frontmatter.updatedDate
 
   .legal-body :global(p) {
     line-height: 1.9;
+  }
+
+  .legal-body :global(a) {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .legal-body :global(a:hover) {
+    text-decoration-thickness: 2px;
   }
 
   @media (min-width: 640px) {
