@@ -28,9 +28,13 @@ const navigation = [
       ))}
     </div>
 
-    <div class="nav__login">
-      <a href="/login">
-        ログイン <span aria-hidden="true">→</span>
+    <div class="nav__actions">
+      <a href="/login" class="nav__login">
+        ログイン
+      </a>
+
+      <a href="/signup" class="nav__signup">
+        無料ではじめる
       </a>
     </div>
 
@@ -93,8 +97,14 @@ const navigation = [
             </a>
           ))}
 
-          <div class="mobile-menu__login">
-            <a href="/login">ログイン</a>
+          <div class="mobile-menu__actions">
+            <a href="/login" class="mobile-menu__login">
+              ログイン
+            </a>
+
+            <a href="/signup" class="mobile-menu__signup">
+              無料ではじめる
+            </a>
           </div>
         </nav>
       </div>
@@ -165,7 +175,7 @@ const navigation = [
   }
 
   .nav__links,
-  .nav__login {
+  .nav__actions {
     display: none;
   }
 
@@ -236,15 +246,17 @@ const navigation = [
     background: var(--muted);
   }
 
-  .mobile-menu__login {
+  .mobile-menu__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
   }
 
-  .mobile-menu__login a {
+  .mobile-menu__login {
     display: block;
-    margin-inline: -0.75rem;
     padding: 0.625rem 0.75rem;
     border-radius: var(--radius);
     color: var(--foreground);
@@ -253,8 +265,25 @@ const navigation = [
     font-weight: 600;
   }
 
-  .mobile-menu__login a:hover {
+  .mobile-menu__login:hover {
     background: var(--muted);
+  }
+
+  .mobile-menu__signup {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    color: var(--background);
+    background: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    transition: opacity 150ms ease;
+  }
+
+  .mobile-menu__signup:hover {
+    opacity: 0.8;
   }
 
   .sr-only {
@@ -292,21 +321,38 @@ const navigation = [
       font-weight: 600;
     }
 
-    .nav__login {
+    .nav__actions {
       display: flex;
       flex: 1;
+      align-items: center;
       justify-content: flex-end;
+      gap: 1.5rem;
     }
 
-    .nav__login a {
+    .nav__login {
       color: var(--muted-foreground);
       font-size: 0.875rem;
       line-height: 1.5rem;
       font-weight: 600;
     }
 
-    .nav__login a:hover {
+    .nav__login:hover {
       color: var(--foreground);
+    }
+
+    .nav__signup {
+      padding: 0.5rem 1rem;
+      color: var(--background);
+      background: var(--foreground);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+      transition: opacity 150ms ease;
+    }
+
+    .nav__signup:hover {
+      opacity: 0.8;
     }
 
     .nav__menu-button {
