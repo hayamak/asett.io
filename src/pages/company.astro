@@ -1,0 +1,95 @@
+---
+// src/pages/company.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="運営会社 | asett" description="asettの運営会社をご案内します。">
+  <main class="company">
+    <div class="company__container">
+      <h1>運営会社</h1>
+      <section>
+        <h2>会社概要</h2>
+        <dl class="company-profile__list">
+          <div class="company-profile__row">
+            <dt>会社名</dt>
+            <dd>株式会社サティスファクトリー</dd>
+          </div>
+          <div class="company-profile__row">
+            <dt>代表者</dt>
+            <dd>代表取締役 小松武司</dd>
+          </div>
+          <div class="company-profile__row">
+            <dt>所在地</dt>
+            <dd>東京都中央区八丁堀三丁目12番8号 HF八丁堀ビル</dd>
+          </div>
+          <div class="company-profile__row">
+            <dt>資本金</dt>
+            <dd>1億円</dd>
+          </div>
+          <div class="company-profile__row">
+            <dt>事業内容</dt>
+            <dd>インターネット、その他通信網を利用する情報提供及び処理業務</dd>
+          </div>
+          <div class="company-profile__row">
+            <dt>お問い合わせ</dt>
+            <dd>
+              <a href="/contact">お問い合わせフォーム</a>
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .company__container {
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 6rem 1.5rem;
+  }
+  .company-profile__list {
+    margin: 0;
+  }
+
+  .company-profile__row {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .company-profile__row dt {
+    font-weight: 600;
+  }
+
+  .company-profile__row dd {
+    margin: 0;
+  }
+
+  .company-profile__row a {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+
+  .company-profile__row a:hover {
+    text-decoration: none;
+  }
+
+  @media (max-width: 39.999rem) {
+    .company-profile__row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1.5rem 0;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .company__container {
+      padding-block: 8rem;
+    }
+  }
+</style>
