@@ -1,0 +1,164 @@
+---
+// src/pages/news/[slug].astro
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import { categoryLabels } from "../../lib/news";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async () => {
+  const news = await getCollection("news");
+
+  return news.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+
+<Layout
+  title={`${article.data.title} | asett`}
+  description={article.data.title}
+>
+  <main class="news">
+    <a class="news__back" href="/news">
+      ← お知らせ一覧に戻る
+    </a>
+    <article class="news__article">
+      <header>
+        <div class="news__meta">
+          <time datetime={article.data.date.toISOString().slice(0, 10)}>
+            {article.data.date.toLocaleDateString("ja-JP")}
+          </time>
+          <span class="news__category">
+            {categoryLabels[article.data.category]}
+          </span>
+        </div>
+        <h1 class="news__title">{article.data.title}</h1>
+      </header>
+      <div class="news__content">
+        <Content />
+      </div>
+    </article>
+    <a class="news__back" href="/news">
+      ← お知らせ一覧に戻る
+    </a>
+  </main>
+</Layout>
+
+<style>
+  .news {
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 6rem 1.5rem;
+  }
+
+  .news__back {
+    display: inline-block;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+
+  .news__back:hover {
+    color: var(--foreground);
+  }
+
+  .news__back:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .news__article {
+    margin-block: 3rem;
+  }
+
+  .news__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .news__date {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  .news__category {
+    padding: 0.25rem 0.75rem;
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .news__title {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+  }
+
+  .news__content {
+    padding-block: 2rem 2.5rem;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+  }
+
+  .news__content :global(p) {
+    margin-bottom: 0.75rem;
+  }
+
+  .news__content :global(h2) {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .news__content :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .news__content :global(ul),
+  .news__content :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .news__content :global(ul) {
+    list-style: disc;
+  }
+
+  .news__content :global(ol) {
+    list-style: decimal;
+  }
+
+  .news__content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .news__content :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+
+  .news__content :global(a:hover) {
+    opacity: 0.7;
+  }
+
+  @media (min-width: 40rem) {
+    .news {
+      padding-block: 8rem;
+    }
+  }
+</style>
